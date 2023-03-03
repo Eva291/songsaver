@@ -8,12 +8,15 @@ class SongOverview extends React.Component {
     super();
     this.state = {
       songs: [],
+      allSongs: [],
     };
   }
 
   addSong = (song) => {
     this.setState((prevState) => {
       const newList = prevState.songs.concat(song);
+      prevState.allSongs = newList;
+
       return {
         songs: newList,
       };
@@ -23,7 +26,9 @@ class SongOverview extends React.Component {
   removeSong = (id) => {
     this.setState((prevState) => {
       const songs = prevState.songs;
-      const newList = songs.filter((index) => index !== id);
+      const newList = songs.filter((song) => songs.indexOf(song) !== id);
+      prevState.allSongs = newList;
+
       return {
         songs: newList,
       };
@@ -32,18 +37,18 @@ class SongOverview extends React.Component {
 
   filterGenre = (event) => {
     this.setState((prevState) => {
-      const songs = prevState.songs;
+      const songs = prevState.allSongs;
       const genre = event.target.value;
-      const filteredList = songs.filter((song) => song.genre === genre);
+      const newList = songs.filter((song) => song.genre === genre);
       return {
-        songs: filteredList,
+        songs: newList,
       };
     });
   };
 
   filterRating = (event) => {
     this.setState((prevState) => {
-      const songs = prevState.songs;
+      const songs = prevState.allSongs;
       const rating = event.target.value;
       const filteredList = songs.filter((song) => song.rating === rating);
       return {
